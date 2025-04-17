@@ -2,7 +2,6 @@ import psycopg2, os, sys
 from pathlib import Path
 
 def create_tables(filename):
-
     dataname = Path(filename).stem
     create_cmd = """CREATE TABLE """ + dataname + """ (
                 event_time timestamptz,
@@ -16,11 +15,11 @@ def create_tables(filename):
     connection = None
     try:
         pgConnectionData = {
-            'dbname': os.environ["POSTGRES_DB"],
-            'user': os.environ["POSTGRES_USER"],
-            'password': os.environ["POSTGRES_PASSWORD"],
-            'port': os.environ["POSTGRES_PORT"],
-            'host': os.environ["POSTGRES_HOST"]
+            'dbname': os.environ['POSTGRES_DB'],
+            'user': os.environ['POSTGRES_USER'],
+            'password': os.environ['POSTGRES_PASSWORD'],
+            'port': os.environ['POSTGRES_PORT'],
+            'host': os.environ['POSTGRES_HOST']
         }
         connection = psycopg2.connect(**pgConnectionData)
         cur = connection.cursor()
@@ -34,9 +33,8 @@ def create_tables(filename):
         if connection is not None:
             connection.close()
 
-
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        sys.exit("ERROR! Invalid number of arguments")
+        sys.exit('ERROR! Invalid number of arguments')
     create_tables(sys.argv[1])
 

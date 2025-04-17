@@ -7,10 +7,7 @@ services:
         ports:
         - "5432:5432"
         volumes:
-        - ./data:/home/data
-        - ./ex02:/home/ex02
-        - ./ex03:/home/ex03
-        - ./ex04:/home/ex04
+        - .:/home/
         networks:
         - mydb
 
@@ -20,7 +17,7 @@ services:
         env_file:
         - .env
         ports:
-        - "5050:5050"
+        - "8080:8080"
         depends_on:
         - postgres
         networks:
