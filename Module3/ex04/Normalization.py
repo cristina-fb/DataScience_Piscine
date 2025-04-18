@@ -8,12 +8,12 @@ if __name__ == '__main__':
 
     header = list(df_test.columns)
     for col in header:
-        df_test[col] = (df_test[col] - df_test[col].mean()) / df_test[col].std()
+        df_test[col] = (df_test[col] - df_test[col].min()) / (df_test[col].max() - df_test[col].min())
 
     header = list(df_train.columns)
     header.remove('knight')
     for col in header:
-        df_train[col] = (df_train[col] - df_train[col].mean()) / df_train[col].std()
+        df_train[col] = (df_train[col] - df_train[col].min()) / (df_train[col].max() - df_train[col].min())
 
     print(df_test)
     print('---------------------------------------------------')
@@ -24,9 +24,9 @@ if __name__ == '__main__':
     sith = df_train[df_train['knight'] == 'Sith'].drop('knight', axis='columns')
 
     fig, ax = plt.subplots(1,2, figsize=(10, 5))
-    jedi.plot.scatter('Empowered','Stims',ax=ax[0], alpha=0.42, color='blue', label='Jedi')
-    sith.plot.scatter('Empowered','Stims',ax=ax[0], alpha=0.42, color='red', label='Sith')
-    df_test.plot.scatter('Empowered','Stims',ax=ax[1], alpha=0.42, color='green', label='knight')
+    jedi.plot.scatter('Push','Deflection',ax=ax[0], alpha=0.42, color='blue', label='Jedi')
+    sith.plot.scatter('Push','Deflection',ax=ax[0], alpha=0.42, color='red', label='Sith')
+    df_test.plot.scatter('Push','Deflection',ax=ax[1], alpha=0.42, color='green', label='knight')
     # plt.show()
-    plt.savefig('standarized.jpg')
-    # TODO check values of standarized
+    plt.savefig('normalized.jpg')
+    # TODO check values of normalized
