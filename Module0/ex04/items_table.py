@@ -3,13 +3,12 @@ from pathlib import Path
 
 def create_table(filename):
 
-    dataname = Path(filename).stem
-    create_cmd = '''CREATE TABLE ''' + dataname + ''' (
+    create_cmd = '''CREATE TABLE items (
                 product_id integer,
                 category_id numeric(25,0),
-                categry_code text,
+                category_code text,
                 brand text)'''
-    copy_cmd = """COPY """ + dataname + """ FROM '""" + filename + """' DELIMITER ',' CSV HEADER;"""
+    copy_cmd = """COPY items FROM '""" + filename + """' DELIMITER ',' CSV HEADER;"""
 
     connection = None
     try:
