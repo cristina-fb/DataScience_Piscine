@@ -1,5 +1,4 @@
 from matplotlib import pyplot as plt
-import numpy as np
 import psycopg2, os
 import pandas as pd
 
