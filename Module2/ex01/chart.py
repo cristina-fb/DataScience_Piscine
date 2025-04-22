@@ -1,6 +1,8 @@
 from matplotlib import pyplot as plt
+import matplotlib.dates as mdates
 import psycopg2, os
 import pandas as pd
+import numpy as np
 
 def get_data():
     connection = None
@@ -31,20 +33,33 @@ def show_sales(sales, months):
     month_sales = []
     for month in months.values():
         month_sales.append(sales.loc[sales['event_time'].dt.month == month, 'price'].sum())
-    print(month_sales)
-    plt.bar(months.keys(), month_sales, color='b', alpha=0.42)
-    plt.savefig('sales.png')
+    month_sales = np.array(month_sales) / 1000000
+    plt.grid(color='white', zorder=0, axis='y')
+    plt.gca().set_facecolor('whitesmoke')
+    plt.bar(months.keys(), month_sales, color='lightsteelblue', zorder=3)
+    plt.xlabel('month')
+    plt.ylabel('total sales in million of ₳')
+    plt.savefig('monthly_sales.png')
 
 def show_customers(sales, months):
     daily_data = sales.groupby(pd.Grouper(key='event_time', freq='D'))
     daily_customers = daily_data['user_id'].nunique()
     daily_sales = daily_data['price'].sum()
-    plt.plot(daily_customers.index, daily_customers, color='b', alpha=0.42)
+    plt.grid(color='white', zorder=0)
+    plt.gca().set_facecolor('whitesmoke')
+    plt.plot(daily_customers.index, daily_customers, color='royalblue', zorder=3)
+    plt.xlabel('monetary value in ₳')
+    plt.ylabel('month')
     plt.savefig('customers.png')
+
     plt.clf()
-    plt.plot(daily_sales.index, daily_sales/daily_customers, color='b', alpha=0.42)
-    plt.fill_between(daily_sales.index, daily_sales/daily_customers, color='b', alpha=0.42)
-    plt.savefig('sales2.png')
+    plt.grid(color='white', zorder=0)
+    plt.gca().set_facecolor('whitesmoke')
+    plt.plot(daily_sales.index, daily_sales/daily_customers, color='lightsteelblue', zorder=3)
+    plt.fill_between(daily_sales.index, daily_sales/daily_customers, color='lightsteelblue', zorder=3)
+    plt.xlabel('month')
+    plt.ylabel('Average spend/customers in ₳')
+    plt.savefig('average_spend.png')
 
 if __name__ == '__main__':
     months = {

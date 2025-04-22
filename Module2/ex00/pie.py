@@ -31,7 +31,6 @@ def get_data(event_type):
 
 def show_pie(event_type, data):
     plt.pie(data, labels=event_type, autopct='%.1f%%')
-    #plt.show()
     plt.savefig('pie.jpg')
 
 if __name__ == '__main__':
