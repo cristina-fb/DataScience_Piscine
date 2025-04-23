@@ -39,7 +39,7 @@ def show_monetary_chart(data):
     plt.ylabel('customers')
     plt.grid(color='white', zorder=0)
     plt.gca().set_facecolor('whitesmoke')
-    plt.savefig('spend.png')
+    plt.savefig('spend.png', dpi=300)
 
 def show_freq_chart(data):
     freq = ['0', '10', '20', '30', '40']
@@ -53,7 +53,7 @@ def show_freq_chart(data):
     plt.gca().set_facecolor('whitesmoke')
     plt.xlabel('frequency')
     plt.ylabel('customers')
-    plt.savefig('frequency.png')
+    plt.savefig('frequency.png', dpi=300)
 
 if __name__ == '__main__':
     data = get_data()

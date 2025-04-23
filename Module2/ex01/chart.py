@@ -39,7 +39,7 @@ def show_sales(sales, months):
     plt.bar(months.keys(), month_sales, color='lightsteelblue', zorder=3)
     plt.xlabel('month')
     plt.ylabel('total sales in million of ₳')
-    plt.savefig('monthly_sales.png')
+    plt.savefig('monthly_sales.png', dpi=300)
 
 def show_customers(sales, months):
     daily_data = sales.groupby(pd.Grouper(key='event_time', freq='D'))
@@ -48,9 +48,9 @@ def show_customers(sales, months):
     plt.grid(color='white', zorder=0)
     plt.gca().set_facecolor('whitesmoke')
     plt.plot(daily_customers.index, daily_customers, color='royalblue', zorder=3)
-    plt.xlabel('monetary value in ₳')
-    plt.ylabel('month')
-    plt.savefig('customers.png')
+    plt.xlabel('month')
+    plt.ylabel('monetary value in ₳')
+    plt.savefig('customers.png', dpi=300)
 
     plt.clf()
     plt.grid(color='white', zorder=0)
@@ -58,8 +58,8 @@ def show_customers(sales, months):
     plt.plot(daily_sales.index, daily_sales/daily_customers, color='lightsteelblue', zorder=3)
     plt.fill_between(daily_sales.index, daily_sales/daily_customers, color='lightsteelblue', zorder=3)
     plt.xlabel('month')
-    plt.ylabel('Average spend/customers in ₳')
-    plt.savefig('average_spend.png')
+    plt.ylabel('average spend/customers in ₳')
+    plt.savefig('average_spend.png', dpi=300)
 
 if __name__ == '__main__':
     months = {

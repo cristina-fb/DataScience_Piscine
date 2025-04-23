@@ -1,7 +1,10 @@
 from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import matplotlib.pyplot as plt
 import psycopg2, os
+import numpy as np
+from datetime import datetime as dt
 
 def get_data():
     connection = None
@@ -15,7 +18,7 @@ def get_data():
         }
         connection = psycopg2.connect(**pgConnectionData)
         cur = connection.cursor()
-        cmd = """SELECT product_id, user_id FROM customers WHERE event_type = 'purchase'"""
+        cmd = """SELECT event_time, user_id, price FROM customers WHERE event_type = 'purchase'"""
         cur.execute(cmd)
         data = cur.fetchall()
         cur.close()
@@ -29,16 +32,24 @@ def get_data():
 
 if __name__ == '__main__':
 
-    data = pd.DataFrame(get_data(), columns=['product_id', 'user_id'])
-    model = data.groupby(data['product_id']).count()
-    print(model)
+    data = pd.DataFrame(get_data(), columns=['event_time', 'user_id', 'price'])
+    
+    data['event_time'] = pd.to_datetime(data['event_time'])
+    data['event_time'] = dt(2023,3,1,0,0,0).timestamp() - data['event_time'].astype(int).div(10**9)/(3600*24)
+    model = data.groupby(['user_id']).agg({'price':'count', 'event_time':'last'}).reset_index()
+    model = model.drop(['user_id'], axis=1)
+
+    scaler = StandardScaler()
+    model = scaler.fit_transform(model)
+    
     inertia = []
-    for k in range(1, 10):
+    for k in range(1, 11):
         kmeans = KMeans(n_clusters=k, random_state=42).fit(model)
         inertia.append(kmeans.inertia_)
     plt.title('The Elbow Method')
     plt.xlabel('Number of clusters')
+    ax = plt.gca()
     plt.plot(inertia, zorder=3)
     plt.grid(color='white', zorder=0)
     plt.gca().set_facecolor('whitesmoke')
-    plt.savefig('elbow.png')
+    plt.savefig('elbow.png', dpi=300)

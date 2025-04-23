@@ -31,7 +31,7 @@ def get_data(event_type):
 
 def show_pie(event_type, data):
     plt.pie(data, labels=event_type, autopct='%.1f%%')
-    plt.savefig('pie.jpg')
+    plt.savefig('pie.jpg', dpi=300)
 
 if __name__ == '__main__':
     event_type = ['view', 'cart', 'remove_from_cart', 'purchase']
