@@ -10,13 +10,13 @@ def plot_skills():
     for skill in header:
         df = pd.DataFrame(data[skill])
         df.hist(column=skill, bins=42, grid=False, color='green', alpha=0.42, ax=ax[row][col], label='Knight')
+        ax[row][col].legend(['Knight'])
         if col == 4:
             col = 0
             row += 1
         else:
             col += 1
-    # plt.show()
-    plt.savefig('skills.jpg')
+    plt.savefig('skills.jpg', dpi=300)
 
 def plot_skill_interactions():
     data = pd.read_csv('../Train_knight.csv')
@@ -32,13 +32,13 @@ def plot_skill_interactions():
         df.hist(column=skill, bins=42, grid=False, color='blue', alpha=0.42, ax=ax[row][col], label='Jedi')
         df = pd.DataFrame(sith[skill])
         df.hist(column=skill, bins=42, grid=False, color='red', alpha=0.42, ax=ax[row][col], label='Sith')
+        ax[row][col].legend(['Jedi', 'Sith'])
         if col == 4:
             col = 0
             row += 1
         else:
             col += 1
-    # plt.show()
-    plt.savefig('skill_interactions.jpg')
+    plt.savefig('skill_interactions.jpg', dpi=300)
 
 
 if __name__ == '__main__':
