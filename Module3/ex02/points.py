@@ -16,5 +16,4 @@ if __name__ == '__main__':
     jedi.plot.scatter('Push','Deflection',ax=ax[0][1], alpha=0.42, color='blue', label='Jedi')
     sith.plot.scatter('Push','Deflection',ax=ax[0][1], alpha=0.42, color='red', label='Sith')
     df_test.plot.scatter('Push','Deflection',ax=ax[1][1], alpha=0.42, color='green', label='knight')
-    # plt.show()
-    plt.savefig('scatter.jpg')
+    plt.savefig('scatter.jpg', dpi=300)

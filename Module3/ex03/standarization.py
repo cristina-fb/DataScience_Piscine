@@ -27,6 +27,4 @@ if __name__ == '__main__':
     jedi.plot.scatter('Empowered','Stims',ax=ax[0], alpha=0.42, color='blue', label='Jedi')
     sith.plot.scatter('Empowered','Stims',ax=ax[0], alpha=0.42, color='red', label='Sith')
     df_test.plot.scatter('Empowered','Stims',ax=ax[1], alpha=0.42, color='green', label='knight')
-    # plt.show()
-    plt.savefig('standarized.jpg')
-    # TODO check values of standarized
+    plt.savefig('standarized.jpg', dpi=300)
