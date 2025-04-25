@@ -43,7 +43,7 @@ Jedi
 Jedi
 Sith
 Jedi
-Jedi
+Sith
 Jedi
 Sith
 Sith

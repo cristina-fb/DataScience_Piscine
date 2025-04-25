@@ -1,8 +1,11 @@
-import sys
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import VotingClassifier
 import numpy as np
 import pandas as pd
+import sys
 
 def get_f1score(truth, predictions):
     TP = 0
@@ -44,13 +47,14 @@ if __name__ == '__main__':
     header.remove('knight')
     X_train, X_test, y_train, y_test = get_train_test(df_train)
 
-    knn = KNeighborsClassifier(n_neighbors=5)
-    knn.fit(X_train, y_train)
-    prediction = knn.predict(X_test)
+    tree = DecisionTreeClassifier()
+    knn = KNeighborsClassifier(n_neighbors=8)
+    log = LogisticRegression()
 
-    np.savetxt('KNN.txt', prediction, fmt='%s')
+    estimators=[('Tree', tree), ('KNN', knn), ('Log Reg', log)]
+    voting_clf_hard = VotingClassifier(estimators=estimators, voting='hard')
+    voting_clf_hard.fit(X_train, y_train)
+    prediction = voting_clf_hard.predict(X_test)
 
-    truth = open('../truth.txt', 'r')
-    truth = truth.read()
-    truth = truth.split("\n")
-    get_f1score(truth, prediction)
+    np.savetxt('Voting.txt', prediction, fmt='%s')
+    get_f1score(y_test, prediction)
