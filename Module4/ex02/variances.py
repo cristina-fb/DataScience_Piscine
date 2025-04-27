@@ -11,17 +11,23 @@ if __name__ == '__main__':
 
     header = list(df.columns)
     for col in header:
-        df[col] = (df[col] - df[col].min()) / (df[col].max() - df[col].min())
+       df[col] = (df[col] - df[col].min()) / (df[col].max() - df[col].min())
 
-    #variances = (df.var()/df.mean()**2) * 100
+    pca = PCA()
+    pca.fit_transform(df)
 
-    print(df['knight'].var())
+    variance = np.sort(pca.explained_variance_ratio_)[::-1]
+    total_variance = variance.sum()
+    variance = variance * 100 / total_variance
+    cumulative_var = np.cumsum(variance)
 
-    cumulative_var = df.var().cumsum()
-    print('---------------------------------------------------')
+    print('Variances (Percentage):')
+    print(variance)
+    print("----------------------------------------------------------")
+    print('Cumulative Variances (Percentage):')
     print(cumulative_var)
 
-    #plt.plot(range(len(cumulative_var)), cumulative_var)
-    #plt.xlabel('Number of components')
-    #plt.ylabel('Explained variance (%)')
-    #plt.savefig('variance.png', dpi=300)
+    plt.plot(range(len(cumulative_var)), cumulative_var)
+    plt.xlabel('Number of components')
+    plt.ylabel('Explained variance (%)')
+    plt.savefig('variance.png', dpi=300)
